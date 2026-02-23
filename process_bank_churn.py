@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from typing import List
 
 
 def split_data(df, target_col):
@@ -74,15 +75,16 @@ def encode_categorical_features(data, categorical_cols):
     return encoder
 
 
-def preprocess_data(raw_df, scaler_numeric=True):
+def preprocess_data(raw_df, scaler_numeric=True, drop_cols: List[str] = None):
     """
     Full preprocessing for Bank Churn dataset.
     """
 
     target_col = 'Exited'
 
-    # 1️⃣ Drop Surname
-    raw_df = raw_df.drop(columns=['Surname', 'CustomerId', 'id'])
+    # 1️⃣ Drop columns
+    if drop_cols is not None:
+        raw_df = raw_df.drop(columns=drop_cols, errors='ignore')
 
     # 2️⃣ Split data
     train_df, val_df = split_data(raw_df, target_col)
@@ -119,12 +121,13 @@ def preprocess_data(raw_df, scaler_numeric=True):
     )
 
 
-def preprocess_new_data(new_df, input_cols, scaler, encoder, scaler_numeric=True):
+def preprocess_new_data(new_df, input_cols, scaler, encoder, scaler_numeric=True, drop_cols: List[str] = None):
     """
     Preprocess new (test) data using trained scaler and encoder.
     """
 
-    new_df = new_df.drop(columns=['Surname', 'CustomerId', 'id'])
+    if drop_cols is not None:
+        new_df = new_df.drop(columns=drop_cols, errors='ignore')
 
     numeric_cols = new_df.select_dtypes(include=np.number).columns.tolist()
     categorical_cols = new_df.select_dtypes(include='object').columns.tolist()
