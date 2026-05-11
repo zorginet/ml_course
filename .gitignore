@@ -2,23 +2,23 @@
 *
 
 # # 2. Разрешаем Git заходить ТОЛЬКО в папки Модулей
-!Модуль*/
+!module*/
 
 # # 3. Внутри этих папок игнорируем всё...
-!Модуль*/*
+!module*/*
 
 # # 4. ...КРОМЕ папок homework (теперь заходим в них)
-!Модуль*/*/homework/
+!module*/*/homework/
 
 # # Но разрешаем (вытаскиваем из игнора) только папки с домашками и ноутбуки
-!Модуль*/
+!module*/
 !*.ipynb
 !.gitignore
 
 # Снова явно запрещаем конкретные файлы, даже если они .ipynb
-Модуль*/*/lectures/
-Модуль*/lectures/
-Модуль*/self_practice
+module*/*/lectures/
+module*/lectures/
+module*/self_practice
 notes.ipynb
 my_*
 temp.ipynb
