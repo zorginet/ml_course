@@ -1,12 +1,16 @@
+import os
+
 import joblib
 import numpy as np
 import pandas as pd
 import streamlit as st
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 @st.cache_resource
 def load_model():
-    return joblib.load("models/aussie_rain.joblib")
+    return joblib.load(os.path.join(BASE_DIR, "models", "aussie_rain.joblib"))
 
 
 weather_aus = load_model()
@@ -14,7 +18,7 @@ weather_aus = load_model()
 
 @st.cache_data
 def load_and_analyze_data():
-    raw_data = pd.read_csv("data/weatherAUS.csv")
+    raw_data = pd.read_csv(os.path.join(BASE_DIR, "data", "weatherAUS.csv"))
 
     rain_stats = (
         raw_data.groupby("Location")["RainTomorrow"]
@@ -64,7 +68,7 @@ st.title("🌧️ Australian Rain Prediction Predictor")
 st.markdown(
     "This app uses the **Random Forest** model to predict whether it will rain in Australia tomorrow, based on meteorological data."
 )
-st.image("images/australia.jpg")
+st.image(os.path.join(BASE_DIR, "images", "australia.jpg"))
 
 st.header("Statistics on observations in Australia")
 st.subheader("Top 5 Cities with Highest Rain Probability")
