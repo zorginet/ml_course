@@ -2,7 +2,7 @@
 
 This project demonstrates how to deploy a machine learning model using Streamlit to forecast the next day’s rainfall in Australia based on daily meteorological observations. The application allows users to analyse historical data and obtain an accurate probability-based forecast using a trained **Random Forest** model.
 
-You can test the app by following this link: `link` 
+You can test the app by following this link: [Streamlit App](https://zorginet-rain-predictor.streamlit.app/) 
 *(If the message ‘This app has gone to sleep due to inactivity’ appears when you click the link, simply tap the ‘Yes, get this app back up!’ button and wait half a minute).*
 
 ---
