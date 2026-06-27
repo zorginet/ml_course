@@ -4,6 +4,7 @@
 # # 2. Разрешаем Git заходить ТОЛЬКО в папки Модулей
 !module*/
 !**/australian-rain-predictor/**
+!**/bank_marketing_predictor/**
 
 # # 3. Внутри этих папок игнорируем всё...
 !module*/*
