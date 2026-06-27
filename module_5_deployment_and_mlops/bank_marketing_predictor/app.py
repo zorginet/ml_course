@@ -76,19 +76,24 @@ def read_root():
 
 @app.post("/predict")
 def predict(data: CustomerData):
-    input_dict = data.model_dump(by_alias=True)
-    input_df = pd.DataFrame([input_dict])
+    try:
+        input_dict = data.model_dump(by_alias=True)
+        input_df = pd.DataFrame([input_dict])
 
-    input_df["was_contacted"] = input_df["pdays"].apply(lambda x: 1 if x != 999 else 0)
+        input_df["was_contacted"] = input_df["pdays"].apply(
+            lambda x: 1 if x != 999 else 0
+        )
 
-    cols_to_drop = ["duration", "emp.var.rate", "nr.employed", "pdays"]
-    input_df = input_df.drop(columns=cols_to_drop, errors="ignore")
+        cols_to_drop = ["duration", "emp.var.rate", "nr.employed", "pdays"]
+        input_df = input_df.drop(columns=cols_to_drop, errors="ignore")
 
-    prediction = pipeline.predict(input_df)[0]
-    prediction_proba = pipeline.predict_proba(input_df)[0][1]
+        prediction = pipeline.predict(input_df)[0]
+        prediction_proba = pipeline.predict_proba(input_df)[0][1]
 
-    return {
-        "prediction": int(prediction),
-        "probability": float(prediction_proba),
-        "status": "Target 1 (Yes)" if prediction == 1 else "Target 0 (No)",
-    }
+        return {
+            "prediction": int(prediction),
+            "probability": float(prediction_proba),
+            "status": "Target 1 (Yes)" if prediction == 1 else "Target 0 (No)",
+        }
+    except Exception as e:
+        return {"error": str(e), "status": "Prediction failed"}
